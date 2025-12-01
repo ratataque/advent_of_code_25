@@ -45,7 +45,7 @@ def part2(data):
 
         elif dir == "L":
             new_pos = old_pos - steps
-            counts += (old_pos - 1) // 100 - (new_pos - 1) // 100
+            counts += -((new_pos - 1) // 100) - (1 if old_pos == 0 else 0)
             pos = new_pos % 100
 
     return counts
@@ -61,8 +61,8 @@ if __name__ == "__main__":
 
     # result = part1(test_data)
     # print(part1(data))
-    result = part2(test_data)
-    # result = part2(data)
+    # result = part2(test_data)
+    result = part2(data)
 
     elapsed = perf_counter() - start
 
