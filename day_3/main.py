@@ -36,33 +36,30 @@ def part2(data):
     result = 0
 
     for bank in data:
-        skip_autorised = len(bank) - 12
-        print(f"Bank {len(bank)}, Skip autorised: {skip_autorised}")
-        skip = []
-        streak = []
+        max_num = []
+        k = 12
+        skip_autorised = len(bank) - k
 
-        for i in range(1, len(bank)):
-            num = bank[i]
-            prev_num = bank[i - 1]
+        start = 0
 
-            if len(skip) + len(streak) >= skip_autorised:
-                skip += streak
-                break
+        # select k digits
+        for i in range(k):
+            max_digit = "0"
+            max_pos = start
+            end = skip_autorised + i + 1
 
-            if num > prev_num:
-                streak.append(i - 1)
-                skip += streak
-                streak = []
-            if num == prev_num:
-                streak.append(i - 1)
+            # find max digit in the allowed range (from last highest digit pos to + skipping autorised + 1)
+            for j in range(start, end):
+                if bank[j] > max_digit:
+                    max_digit = bank[j]
+                    max_pos = j
+                    # print(f"  Checking {bank[j]} (pos {j}) {i}")
 
-        # remove indexes in reverse order to not mess up positions
-        # print(f"bank {bank}, Skip: {skip}")
-        for n in range(len(skip), 0, -1):
-            bank = bank[: skip[n - 1]] + bank[skip[n - 1] + 1 :]
-        print(len(bank), bank)
+            start = max_pos + 1
+            max_num.append(max_digit)
+            # print(f"{len(''.join(max_num))} Max so far: {''.join(max_num)}")
 
-        result += int(bank)
+        result += int("".join(max_num))
 
     return result
 
@@ -77,8 +74,8 @@ if __name__ == "__main__":
 
     # result = part1(test_data)
     # result = part1(data)
-    # result = part2(test_data)
-    result = part2(data)
+    result = part2(test_data)
+    # result = part2(data)
 
     elapsed = perf_counter() - start
 
